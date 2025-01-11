@@ -9,8 +9,7 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-  ],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -30,6 +29,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^5.0.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
     "@types/vscode": "^1.96.0",
@@ -39,5 +39,9 @@
     "@vscode/test-electron": "^2.4.1",
     "eslint": "^9.16.0",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
   }
 }

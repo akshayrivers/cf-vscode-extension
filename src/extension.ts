@@ -1,10 +1,45 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-
+import express, { Request, Response } from 'express';
+import bodyParser from 'body-parser';
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+
+	const app = express();
+
+    // Use body-parser middleware to parse JSON requests
+    app.use(bodyParser.json());
+
+    app.post('/', (req: Request, res: Response) => {
+        try {
+            const data = req.body; 
+
+            console.log('Received Data:', data);
+
+            vscode.window.showInformationMessage(`Problem Received: ${data.name}`);
+
+            res.status(200).send('Data received successfully');
+        } catch (error) {
+            console.error('Error processing request:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+
+    // Start the server on port 12345
+    const server = app.listen(12345, () => {
+        console.log('Express server listening on port 12345');
+    });
+
+    // Handle extension deactivation
+    context.subscriptions.push({
+        dispose: () => {
+            server.close();
+            console.log('Server closed');
+        }
+    });
+
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -19,7 +54,6 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Hello World from codeforces!');
 	});
 
-	context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated
